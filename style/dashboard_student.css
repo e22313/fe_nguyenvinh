@@ -31,7 +31,7 @@ section {
 
 h2 {
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 26px; /* Tăng kích thước font chữ */
   color: #333;
   text-align: center;
 }
@@ -44,26 +44,28 @@ label {
   display: block;
   margin-bottom: 5px;
   color: #555;
+  font-size: 18px; /* Tăng kích thước font chữ */
 }
 
 input,
 select {
   width: 100%;
-  padding: 10px;
+  padding: 12px; /* Tăng padding */
   border: 1px solid #ddd;
   border-radius: 4px;
   box-sizing: border-box;
+  font-size: 18px; /* Tăng kích thước font chữ */
 }
 
 button {
   width: 100%;
-  padding: 10px;
+  padding: 12px; /* Tăng padding */
   background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px; /* Tăng kích thước font chữ */
   margin-top: 10px;
 }
 
@@ -86,15 +88,18 @@ footer {
 .popup {
   display: none;
   position: fixed;
-  top: 20px;
+  top: 100px; /* Điều chỉnh để popup xuất hiện dưới header */
   right: 20px;
-  background-color: #9aa520;
+  background-color: #2196f3; /* Màu khác với header */
   color: white;
-  padding: 15px;
-  border-radius: 4px;
+  padding: 25px; /* Tăng padding */
+  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   animation: slideIn 0.5s, fadeOut 0.5s 2.5s;
+  max-width: 300px;
+  word-wrap: break-word;
+  font-size: 18px; /* Tăng kích thước font chữ */
 }
 
 .popup-error {
@@ -120,8 +125,9 @@ footer {
     opacity: 0;
   }
 }
+
 #welcomeMessage {
-  font-size: 16px;
+  font-size: 18px; /* Tăng kích thước font chữ */
   color: white;
   margin-top: 10px;
 }
@@ -131,10 +137,10 @@ footer {
   color: white;
   border: none;
   border-radius: 8px;
-  width: 70px;
-  padding: 10px 20px;
+  width: 90px; /* Tăng kích thước nút */
+  padding: 12px 20px; /* Tăng padding */
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px; /* Tăng kích thước font chữ */
   margin-top: 10px;
 }
 
