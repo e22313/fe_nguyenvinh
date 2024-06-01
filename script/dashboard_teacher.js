@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var popupMessage = document.getElementById("popupMessage");
 
   var loggedInUser = localStorage.getItem("username");
-  console.log(loggedInUser);
   if (loggedInUser) {
     welcomeMessage.textContent = `Xin chào, ${loggedInUser}`;
   }
@@ -28,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function createRoomRow(room) {
     var roomRow = document.createElement("tr");
+    console.log(room.status);
     roomRow.innerHTML = `
         <td>${room.roomName}</td>
         <td>${room.capacity}</td>
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var statusClass = room.status ? "available" : "not-available";
     roomRow.querySelector("td:last-child").textContent = statusText;
     roomRow.querySelector("td:last-child").className = statusClass;
-    updateRoomStatus(room.room_id, room.status);
+    updateRoomStatus(room.roomId, room.status);
     showPopup(`${room.roomName} is now ${statusText.toLowerCase()}.`, false);
   }
 
