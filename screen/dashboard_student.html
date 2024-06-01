@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Màn hình học sinh</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../style/dashboard_student.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Màn hình học sinh</h1>
+      <p id="welcomeMessage"></p>
+      <button id="logoutButton">Đăng xuất</button>
+    </header>
+    <main>
+      <section>
+        <h2>Đăng kí phòng học</h2>
+        <form id="roomRegisterForm">
+          <div class="form-group">
+            <label for="purpose">Mục đích đăng kí:</label>
+            <select id="purpose" name="purpose" required>
+              <option value="group_study">Học nhóm</option>
+              <option value="self_study">Tự học</option>
+              <option value="rehearsal">Diễn tập</option>
+            </select>
+          </div>
+          <div
+            class="form-group"
+            id="groupSizeContainer"
+            style="display: block"
+          >
+            <label for="groupSize">Số lượng thành viên trong nhóm:</label>
+            <input type="number" id="groupSize" name="groupSize" min="1" />
+          </div>
+          <button type="submit">Đăng kí</button>
+        </form>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2024 Simple Website</p>
+    </footer>
+
+    <!-- Popup Notification -->
+    <div id="popup" class="popup">
+      <p id="popupMessage"></p>
+    </div>
+
+    <script src="../script/dashboard_student.js"></script>
+  </body>
+</html>

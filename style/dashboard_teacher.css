@@ -1,0 +1,156 @@
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+header {
+  background-color: #4caf50;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 80px);
+}
+
+section {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 80%; /* Điều chỉnh độ rộng của section */
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Popup styles */
+.popup {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50;
+  color: white;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: slideIn 0.5s, fadeOut 0.5s 2.5s;
+}
+
+.popup-error {
+  background-color: #f44336;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Nút cập nhật */
+#updateButton {
+  display: block;
+  margin: 20px auto; /* Canh giữa nút */
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#updateButton:hover {
+  background-color: #45a049; /* Màu nền khi hover */
+  transform: translateY(-2px); /* Hiệu ứng khi hover */
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.available {
+  color: #4caf50;
+}
+
+.not-available {
+  color: #f44336;
+}
+
+#welcomeMessage {
+  font-size: 16px;
+  color: white;
+  margin-top: 10px;
+}
+
+#logoutButton {
+  background-color: #3b2b2a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 70px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+#logoutButton:hover {
+  background-color: #7e6e6e;
+}

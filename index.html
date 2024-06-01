@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Login</h1>
+    </header>
+    <main>
+      <section>
+        <h2>Login Form</h2>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+
+          <button type="submit">Login</button>
+        </form>
+        <p>
+          Don't have an account?
+          <a href="./screen/register.html">Register here</a>.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Simple Website</p>
+    </footer>
+
+    <!-- Popup Notification -->
+    <div id="popup" class="popup">
+      <p id="popupMessage"></p>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

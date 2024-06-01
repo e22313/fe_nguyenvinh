@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Màn hình giáo viên</title>
+    <link rel="stylesheet" href="../style/dashboard_teacher.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Màn hình giáo viên</h1>
+      <p id="welcomeMessage"></p>
+      <button id="logoutButton">Đăng xuất</button>
+    </header>
+    <main>
+      <section>
+        <h2>Quản lý phòng học</h2>
+        <table id="roomsTable">
+          <thead>
+            <tr>
+              <th>Tên phòng</th>
+              <th>Sức chứa</th>
+              <th>Kích thước</th>
+              <th>Đã đăng kí</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody id="roomsBody">
+            <!-- Thông tin các phòng sẽ được thêm bởi JavaScript -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2024 Simple Website</p>
+    </footer>
+
+    <!-- Popup Notification -->
+    <div id="popup" class="popup">
+      <p id="popupMessage"></p>
+    </div>
+
+    <script src="../script/dashboard_teacher.js"></script>
+  </body>
+</html>
