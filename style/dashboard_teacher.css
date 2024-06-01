@@ -1,3 +1,4 @@
+/* Reset CSS */
 body {
   font-family: "Arial", sans-serif;
   margin: 0;
@@ -5,6 +6,7 @@ body {
   background-color: #f4f4f4;
 }
 
+/* Header Styles */
 header {
   background-color: #4caf50;
   color: white;
@@ -42,6 +44,7 @@ header h1 {
   transform: translateY(-2px);
 }
 
+/* Main Content Styles */
 main {
   display: flex;
   justify-content: center;
@@ -96,19 +99,19 @@ tr:hover {
   font-weight: bold;
 }
 
-/* Popup styles */
+/* Popup Notification Styles */
 .popup {
   display: none;
   position: fixed;
   top: 20px;
   right: 20px;
-  background-color: #4caf50;
+  background-color: #2196f3;
   color: white;
   padding: 15px;
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  animation: slideIn 0.5s, fadeOut 0.5s 2.5s;
+  animation: slideIn 0.5s, fadeOut 0.5s 3.5s;
 }
 
 .popup-error {
@@ -135,13 +138,12 @@ tr:hover {
   }
 }
 
-/* Update and Clear button */
-#updateButton,
+/* Button Styles */
 #clearButton {
   display: block;
   margin: 20px auto;
   padding: 10px 20px;
-  background-color: #4caf50;
+  background-color: #45a049;
   color: white;
   border: none;
   border-radius: 4px;
@@ -150,7 +152,6 @@ tr:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#updateButton:hover,
 #clearButton:hover {
   background-color: #45a049;
   transform: translateY(-2px);

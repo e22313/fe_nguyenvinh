@@ -1,24 +1,3 @@
-function showPopup(message, isError) {
-  // Thêm thông điệp tiết kiệm điện vào thông báo thành công
-  if (!isError) {
-    message +=
-      "\nVui lòng tắt quạt và điện khi ra khỏi phòng. Chung tay tiết kiệm điện vì một tương lai xanh. Mỗi kilowatt giờ tiết kiệm - Là một hành động bảo vệ môi trường.";
-  }
-
-  popupMessage.textContent = message;
-  if (isError) {
-    popup.classList.add("popup-error");
-  } else {
-    popup.classList.remove("popup-error");
-  }
-  popup.style.display = "block";
-
-  // Tự động ẩn popup sau 3 giây
-  setTimeout(function () {
-    popup.style.display = "none";
-  }, 5000);
-}
-
 document.addEventListener("DOMContentLoaded", function () {
   var roomRegisterForm = document.getElementById("roomRegisterForm");
   var popup = document.getElementById("popup");
@@ -26,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var logoutButton = document.getElementById("logoutButton");
   var welcomeMessage = document.getElementById("welcomeMessage");
   var groupSizeContainer = document.getElementById("groupSizeContainer");
+  var isFormSubmitting = false; // Biến để kiểm tra trạng thái gửi biểu mẫu
 
   var loggedInUser = localStorage.getItem("username");
   console.log(loggedInUser);
@@ -45,6 +25,14 @@ document.addEventListener("DOMContentLoaded", function () {
   if (roomRegisterForm) {
     roomRegisterForm.addEventListener("submit", function (event) {
       event.preventDefault(); // Ngăn chặn form gửi đi
+
+      // Kiểm tra nếu biểu mẫu đã được gửi trước đó
+      if (isFormSubmitting) {
+        return;
+      }
+
+      // Đặt trạng thái gửi biểu mẫu là true để ngăn chặn gửi lặp lại
+      isFormSubmitting = true;
 
       var purpose = document.getElementById("purpose").value;
       var groupSize = document.getElementById("groupSize").value;
@@ -79,13 +67,13 @@ document.addEventListener("DOMContentLoaded", function () {
             var message = "";
             switch (purpose) {
               case "self_study":
-                message = `Đăng kí lớp học thành công. Bạn được chỉ định vào phòng ${roomNumber} cho mục đích tự học.`;
+                message = `Đăng kí lớp học thành công. Bạn được chỉ định vào phòng ${roomNumber} cho mục đích tự học. Vui lòng tắt quạt và điện khi ra khỏi phòng. Chung tay tiết kiệm điện vì một tương lai xanh. Mỗi kilowatt giờ tiết kiệm - Là một hành động bảo vệ môi trường.`;
                 break;
               case "group_study":
-                message = `Đăng kí lớp học thành công. Bạn được chỉ định vào phòng ${roomNumber} cho học nhóm với ${groupSize} thành viên.`;
+                message = `Đăng kí lớp học thành công. Bạn được chỉ định vào phòng ${roomNumber} cho học nhóm với ${groupSize} thành viên. Vui lòng tắt quạt và điện khi ra khỏi phòng. Chung tay tiết kiệm điện vì một tương lai xanh. Mỗi kilowatt giờ tiết kiệm - Là một hành động bảo vệ môi trường.`;
                 break;
               case "rehearsal":
-                message = `Đăng kí lớp học thành công. Bạn được chỉ định vào phòng ${roomNumber} cho diễn tập.`;
+                message = `Đăng kí lớp học thành công. Bạn được chỉ định vào phòng ${roomNumber} cho diễn tập. Vui lòng tắt quạt và điện khi ra khỏi phòng. Chung tay tiết kiệm điện vì một tương lai xanh. Mỗi kilowatt giờ tiết kiệm - Là một hành động bảo vệ môi trường.`;
                 break;
               default:
                 message = "Đăng kí thất bại. Vui lòng thử lại.";
@@ -100,6 +88,10 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch((error) => {
           console.error("Error:", error);
           showPopup("Đăng kí thất bại. Vui lòng thử lại.", true);
+        })
+        .finally(() => {
+          // Đặt trạng thái gửi biểu mẫu về false sau khi hoàn tất
+          isFormSubmitting = false;
         });
     });
   }
@@ -109,5 +101,15 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.removeItem("username");
       window.location.href = "../index.html";
     });
+  }
+
+  // Hàm để hiển thị thông báo popup
+  function showPopup(message, isError) {
+    popupMessage.textContent = message;
+    popup.classList.toggle("popup-error", isError);
+    popup.style.display = "block";
+    setTimeout(function () {
+      popup.style.display = "none";
+    }, 5000);
   }
 });

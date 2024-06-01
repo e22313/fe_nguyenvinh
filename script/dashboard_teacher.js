@@ -3,29 +3,18 @@ document.addEventListener("DOMContentLoaded", function () {
   var popup = document.getElementById("popup");
   var popupMessage = document.getElementById("popupMessage");
   var clearButton = document.getElementById("clearButton");
-
   var loggedInUser = localStorage.getItem("username");
-  if (loggedInUser) {
-    welcomeMessage.textContent = `Xin chào, ${loggedInUser}`;
-  }
 
-  // Make an HTTP request to fetch room data from the API
-  fetch("https://nguyenvinh.onrender.com/api/room")
-    .then((response) => response.json())
-    .then((data) => {
-      displayRooms(data); // Display rooms when data is fetched
-    })
-    .catch((error) => {
-      console.error("Error fetching room data:", error);
-    });
-
+  // Hàm để hiển thị các phòng
   function displayRooms(roomsData) {
+    roomsBody.innerHTML = ""; // Xóa bỏ các phòng hiện tại
     roomsData.forEach(function (room) {
       var roomRow = createRoomRow(room);
       roomsBody.appendChild(roomRow);
     });
   }
 
+  // Hàm để tạo một hàng phòng
   function createRoomRow(room) {
     var roomRow = document.createElement("tr");
     roomRow.innerHTML = `
@@ -36,9 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <td class="${room.status ? "available" : "not-available"}">${
       room.status ? "AVAILABLE" : "NOT AVAILABLE"
     }</td>
-      
       `;
-
     roomRow.addEventListener("click", function (event) {
       if (event.target.tagName !== "BUTTON") {
         toggleRoomStatus(room, roomRow);
@@ -47,24 +34,23 @@ document.addEventListener("DOMContentLoaded", function () {
     return roomRow;
   }
 
+  // Hàm để cập nhật trạng thái phòng
   function toggleRoomStatus(room, roomRow) {
     room.status = !room.status;
     var statusText = room.status ? "AVAILABLE" : "NOT AVAILABLE";
     var statusClass = room.status ? "available" : "not-available";
-    roomRow.querySelector("td:nth-last-child(2)").textContent = statusText;
-    roomRow.querySelector("td:nth-last-child(2)").className = statusClass;
+    var statusCell = roomRow.querySelector("td:nth-last-child(1)"); // Lấy ô dữ liệu trạng thái
+    statusCell.textContent = statusText; // Cập nhật văn bản trạng thái
+    statusCell.className = statusClass; // Cập nhật lớp trạng thái
     updateRoomStatus(room.roomId, room.status);
-    showPopup(`${room.roomName} is now ${statusText.toLowerCase()}.`, false);
   }
 
-  function updateRoomStatus(roomId, newStatus, registeredCount = null) {
+  // Hàm để cập nhật trạng thái phòng trên máy chủ
+  function updateRoomStatus(roomId, newStatus) {
     const updateData = {
       room_id: roomId,
       status: newStatus,
     };
-    if (registeredCount !== null) {
-      updateData.registeredCount = registeredCount;
-    }
 
     fetch(`https://nguyenvinh.onrender.com/api/room`, {
       method: "PUT",
@@ -77,13 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!response.ok) {
           throw new Error("Failed to update room status");
         }
+        showPopup("Update successful!", false);
         return response.json();
-      })
-      .then((data) => {
-        console.log("Room status updated successfully:", data);
-        if (registeredCount === null) {
-          showPopup("Update successful!", false);
-        }
       })
       .catch((error) => {
         console.error("Error updating room status:", error);
@@ -91,27 +72,53 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
+  // Hàm để xóa tất cả các phòng
   function deleteRoom() {
     fetch(`https://nguyenvinh.onrender.com/api/room`, {
       method: "DELETE",
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Failed to delete room");
+          throw new Error("Failed to delete rooms");
         }
         return response.json();
       })
-      .then((data) => {
-        console.log("Room deleted successfully:", data);
-        roomRow.remove();
-        showPopup("Room deleted successfully!", false);
+      .then(() => {
+        showPopup("All rooms have been reset.", false);
+        fetchRoomData(); // Gọi hàm để tải lại dữ liệu phòng mới
       })
       .catch((error) => {
-        console.error("Error deleting room:", error);
-        showPopup("Failed to delete room", true);
+        console.error("Error deleting rooms:", error);
+        showPopup("Failed to reset rooms", true);
       });
   }
 
+  // Hàm để tải lại dữ liệu phòng
+  function fetchRoomData() {
+    fetch("https://nguyenvinh.onrender.com/api/room")
+      .then((response) => response.json())
+      .then((data) => {
+        displayRooms(data); // Hiển thị các phòng mới
+      })
+      .catch((error) => {
+        console.error("Error fetching room data:", error);
+        showPopup("Failed to fetch room data", true);
+      });
+  }
+
+  // Sự kiện click của nút clear
+  clearButton.addEventListener("click", function () {
+    deleteRoom(); // Xóa tất cả các phòng
+  });
+
+  if (logoutButton) {
+    logoutButton.addEventListener("click", function () {
+      localStorage.removeItem("username");
+      window.location.href = "../index.html";
+    });
+  }
+
+  // Hàm hiển thị thông báo popup
   function showPopup(message, isError) {
     popupMessage.textContent = message;
     popup.classList.toggle("popup-error", isError);
@@ -121,31 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
   }
 
-  if (logoutButton) {
-    logoutButton.addEventListener("click", function () {
-      localStorage.removeItem("username");
-      window.location.href = "../index.html";
-    });
-  }
-
-  // Clear button functionality
-  clearButton
-    .addEventListener("click", function () {
-      // Fetch the rooms data to reset
-
-      deleteRoom();
-      // Refresh the room table display
-      roomsBody.innerHTML = "";
-      displayRooms(roomsData);
-      showPopup("All rooms have been reset.", false);
-    })
-    .catch((error) => {
-      console.error("Error resetting rooms:", error);
-      showPopup("Failed to reset rooms", true);
-    });
+  // Khi DOM đã được tải, tải dữ liệu phòng
+  fetchRoomData();
 });
-
-// Initial setup
-if (roomsBody) {
-  // Display rooms will be triggered after fetching data from the API
-}

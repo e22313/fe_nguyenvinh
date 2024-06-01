@@ -53,10 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
       popup.classList.remove("popup-error");
     }
     popup.style.display = "block";
-
-    // Tự động ẩn popup sau 3 giây
     setTimeout(function () {
       popup.style.display = "none";
-    }, 5000);
+    }, 4000);
   }
 });
