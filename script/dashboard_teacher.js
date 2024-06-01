@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var roomsBody = document.getElementById("roomsBody");
   var popup = document.getElementById("popup");
   var popupMessage = document.getElementById("popupMessage");
+  var clearButton = document.getElementById("clearButton");
 
   var loggedInUser = localStorage.getItem("username");
   if (loggedInUser) {
@@ -27,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function createRoomRow(room) {
     var roomRow = document.createElement("tr");
-    console.log(room.status);
     roomRow.innerHTML = `
         <td>${room.roomName}</td>
         <td>${room.capacity}</td>
@@ -36,9 +36,13 @@ document.addEventListener("DOMContentLoaded", function () {
         <td class="${room.status ? "available" : "not-available"}">${
       room.status ? "AVAILABLE" : "NOT AVAILABLE"
     }</td>
+      
       `;
-    roomRow.addEventListener("click", function () {
-      toggleRoomStatus(room, roomRow);
+
+    roomRow.addEventListener("click", function (event) {
+      if (event.target.tagName !== "BUTTON") {
+        toggleRoomStatus(room, roomRow);
+      }
     });
     return roomRow;
   }
@@ -47,22 +51,27 @@ document.addEventListener("DOMContentLoaded", function () {
     room.status = !room.status;
     var statusText = room.status ? "AVAILABLE" : "NOT AVAILABLE";
     var statusClass = room.status ? "available" : "not-available";
-    roomRow.querySelector("td:last-child").textContent = statusText;
-    roomRow.querySelector("td:last-child").className = statusClass;
+    roomRow.querySelector("td:nth-last-child(2)").textContent = statusText;
+    roomRow.querySelector("td:nth-last-child(2)").className = statusClass;
     updateRoomStatus(room.roomId, room.status);
     showPopup(`${room.roomName} is now ${statusText.toLowerCase()}.`, false);
   }
 
-  function updateRoomStatus(roomId, newStatus) {
+  function updateRoomStatus(roomId, newStatus, registeredCount = null) {
+    const updateData = {
+      room_id: roomId,
+      status: newStatus,
+    };
+    if (registeredCount !== null) {
+      updateData.registeredCount = registeredCount;
+    }
+
     fetch(`https://nguyenvinh.onrender.com/api/room`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        room_id: roomId,
-        status: newStatus,
-      }),
+      body: JSON.stringify(updateData),
     })
       .then((response) => {
         if (!response.ok) {
@@ -72,11 +81,34 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then((data) => {
         console.log("Room status updated successfully:", data);
-        showPopup("Update successful!", false);
+        if (registeredCount === null) {
+          showPopup("Update successful!", false);
+        }
       })
       .catch((error) => {
         console.error("Error updating room status:", error);
         showPopup("Failed to update room status", true);
+      });
+  }
+
+  function deleteRoom() {
+    fetch(`https://nguyenvinh.onrender.com/api/room`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete room");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Room deleted successfully:", data);
+        roomRow.remove();
+        showPopup("Room deleted successfully!", false);
+      })
+      .catch((error) => {
+        console.error("Error deleting room:", error);
+        showPopup("Failed to delete room", true);
       });
   }
 
@@ -96,8 +128,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Initial setup
-  if (roomsBody) {
-    // Display rooms will be triggered after fetching data from the API
-  }
+  // Clear button functionality
+  clearButton
+    .addEventListener("click", function () {
+      // Fetch the rooms data to reset
+
+      deleteRoom();
+      // Refresh the room table display
+      roomsBody.innerHTML = "";
+      displayRooms(roomsData);
+      showPopup("All rooms have been reset.", false);
+    })
+    .catch((error) => {
+      console.error("Error resetting rooms:", error);
+      showPopup("Failed to reset rooms", true);
+    });
 });
+
+// Initial setup
+if (roomsBody) {
+  // Display rooms will be triggered after fetching data from the API
+}

@@ -57,6 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Tự động ẩn popup sau 3 giây
     setTimeout(function () {
       popup.style.display = "none";
-    }, 3000);
+    }, 5000);
   }
 });

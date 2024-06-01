@@ -135,8 +135,9 @@ tr:hover {
   }
 }
 
-/* Update button */
-#updateButton {
+/* Update and Clear button */
+#updateButton,
+#clearButton {
   display: block;
   margin: 20px auto;
   padding: 10px 20px;
@@ -149,7 +150,8 @@ tr:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#updateButton:hover {
+#updateButton:hover,
+#clearButton:hover {
   background-color: #45a049;
   transform: translateY(-2px);
 }
