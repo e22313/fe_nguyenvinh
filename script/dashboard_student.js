@@ -1,3 +1,24 @@
+function showPopup(message, isError) {
+  // Thêm thông điệp tiết kiệm điện vào thông báo thành công
+  if (!isError) {
+    message +=
+      "\nVui lòng tắt quạt và điện khi ra khỏi phòng. Chung tay tiết kiệm điện vì một tương lai xanh. Mỗi kilowatt giờ tiết kiệm - Là một hành động bảo vệ môi trường.";
+  }
+
+  popupMessage.textContent = message;
+  if (isError) {
+    popup.classList.add("popup-error");
+  } else {
+    popup.classList.remove("popup-error");
+  }
+  popup.style.display = "block";
+
+  // Tự động ẩn popup sau 3 giây
+  setTimeout(function () {
+    popup.style.display = "none";
+  }, 3000);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   var roomRegisterForm = document.getElementById("roomRegisterForm");
   var popup = document.getElementById("popup");
@@ -88,20 +109,5 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.removeItem("username");
       window.location.href = "../index.html";
     });
-  }
-
-  function showPopup(message, isError) {
-    popupMessage.textContent = message;
-    if (isError) {
-      popup.classList.add("popup-error");
-    } else {
-      popup.classList.remove("popup-error");
-    }
-    popup.style.display = "block";
-
-    // Tự động ẩn popup sau 3 giây
-    setTimeout(function () {
-      popup.style.display = "none";
-    }, 3000);
   }
 });
